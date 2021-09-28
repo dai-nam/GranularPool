@@ -9,12 +9,11 @@ public class Table : MonoBehaviour
     private float radius;
     float tableSize = 58f;
 
-    private static Table _instance;
-    public static Table Instance { get { return _instance; } }
+    public static Table Instance;
 
     private void Awake()
     {
-        _instance = this;
+        Instance = this;
         center = new Vector2(transform.position.x, transform.position.y);
         radius = transform.localScale.x / 2f;
     }

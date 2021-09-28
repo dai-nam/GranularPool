@@ -5,27 +5,30 @@ using UnityEngine;
 
 public abstract class Ball : MonoBehaviour
 {
+    public delegate void FallenFromTable(Ball b);
+    public event FallenFromTable OnFallenFromTable;
+
     [SerializeField] public bool isRespawnable;
     [SerializeField] float size = 1;
     public bool onTable;
-    Rigidbody rb;
-    Table table;
+    protected Rigidbody rb;
+    protected SphereCollider sphereCollider;
+    private static int id;
+    public int instanceId;
+
 
     private void Awake()
     {
-        table = Table.Instance;
         onTable = true;
         rb = GetComponent<Rigidbody>();
+        sphereCollider = GetComponent<SphereCollider>();
+        instanceId = id++;
     }
 
-    public void Destroy()
-    {
-        Destroy(this.gameObject);
-    }
 
     private void Update()
     {
-        onTable = table.CheckIfOnTable(transform.position);
+        onTable = Table.Instance.CheckIfOnTable(transform.position);
         if (!onTable)
         {
             DecreaseVelocity();
@@ -42,7 +45,7 @@ public abstract class Ball : MonoBehaviour
 
     public void Respawn()
     {
-        Vector3 randomPosition = table.GetRandomPositionOnTable();
+        Vector3 randomPosition = Table.Instance.GetRandomPositionOnTable();
         RespawnAtPosition(randomPosition);
         rb.velocity = new Vector3(0, 0, 0);
     }
@@ -52,5 +55,21 @@ public abstract class Ball : MonoBehaviour
     private void RespawnAtPosition(Vector3 randomPosition)
     {
         transform.position = randomPosition;
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        HandleFallFromTable(this);
+    }
+    public void HandleFallFromTable(Ball b)
+    {
+        if (isRespawnable)
+        {
+            Respawn();
+        }
+        else
+        {
+            OnFallenFromTable?.Invoke(b);
+        }
     }
 }

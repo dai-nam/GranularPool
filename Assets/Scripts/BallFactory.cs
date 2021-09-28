@@ -6,9 +6,9 @@ public class BallFactory : MonoBehaviour
 {
     [SerializeField] CueBall cueBall;
     [SerializeField] GameBall gameBall;
-    List<Ball> gameBalls = new List<Ball>();
+    public List<Ball> gameBalls = new List<Ball>();
     [SerializeField] [Range(0, 100)] List<int> probabilites;
-
+    [SerializeField] [Range(0f, 1f)] float bounciness;
 
 
     private void Start()
@@ -16,7 +16,7 @@ public class BallFactory : MonoBehaviour
         MakeCueBall();
 
         AddProbabilitesForBallIds();
-        MakeGameBalls(GameManager.instance.ballCount);
+        MakeGameBalls(GameManager.Instance.ballCount);
     }
 
 
@@ -26,14 +26,7 @@ public class BallFactory : MonoBehaviour
         b.transform.parent = this.transform;
     }
 
-    private void AddProbabilitesForBallIds()
-    {
-        int total = GameManager.instance.numberOfSamples;
-        for (int i = 0; i < total; i++)
-        {
-            probabilites.Add(100 / total);
-        }
-    }
+
 
     private void MakeGameBalls(int num)
     {
@@ -46,6 +39,16 @@ public class BallFactory : MonoBehaviour
             b.transform.parent = this.transform;
             b.id = SelectGameBallId(ranges);
             gameBalls.Add(b);
+            b.OnFallenFromTable += HandleFallFromTable;
+        }
+    }
+
+    private void AddProbabilitesForBallIds()
+    {
+        int total = GameManager.Instance.numberOfSamples;
+        for (int i = 0; i < total; i++)
+        {
+            probabilites.Add(100 / total);
         }
     }
 
@@ -77,9 +80,39 @@ public class BallFactory : MonoBehaviour
         }
     }
 
+    private void HandleFallFromTable(Ball b)
+    {
+        RemoveGameBallFromList(b);
+        b.OnFallenFromTable -= HandleFallFromTable;
+        DestroyBall(b);
+    }
+
+    public void RemoveGameBallFromList(Ball b)                    //unelegant
+    {
+      //  Ball x = gameBalls.Find(ball => b.instanceId == ball.instanceId);
+        gameBalls.Remove(b);
+    }
+
+    public void DestroyBall(Ball b)
+    {
+        Destroy(b.gameObject);
+    }
+
     private void DestroyAllBalls()
     {
         foreach (Ball b in transform.GetComponentsInChildren<Ball>())
-            b.Destroy();
+            DestroyBall(b);
+    }
+
+
+    private void OnValidate()
+    {
+        foreach (GameBall gb in gameBalls)
+        {
+            if (gb == null)
+                continue;
+            gb.SetBallBounce(bounciness);          // todo: eleganter, kein Null Check
+        }
+
     }
 }

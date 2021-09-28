@@ -151,7 +151,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   numberOfSamples: 4
-  ballCount: 50
+  ballCount: 5
   ballFactory: {fileID: 1049407422}
 --- !u!4 &699179631
 Transform:
@@ -199,7 +199,9 @@ MonoBehaviour:
   cueBall: {fileID: 9192674090426166581, guid: 288d1c8b010fa5a4092d6673c001c7a0, type: 3}
   gameBall: {fileID: 2908530761746950397, guid: e7fe806371e83f1438dee4cdd042e688,
     type: 3}
+  gameBalls: []
   probabilites: 
+  bounciness: 0
 --- !u!4 &1049407423
 Transform:
   m_ObjectHideFlags: 0
@@ -503,6 +505,11 @@ PrefabInstance:
         type: 3}
       propertyPath: b
       value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 8330547634702667662, guid: 4bffab73828a5a54487ef1b8223eb0cc,
+        type: 3}
+      propertyPath: m_IsTrigger
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4bffab73828a5a54487ef1b8223eb0cc, type: 3}
