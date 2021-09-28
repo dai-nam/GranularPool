@@ -1,0 +1,19 @@
+#N canvas 1089 354 680 533 12;
+#X obj 408 64 soundfiler;
+#X obj 410 122 array define grainArray;
+#X msg 408 25 read -resize test.wav grainArray;
+#X floatatom 408 99 10 0 0 0 - - -;
+#X obj 96 209 tabread4~ grainArray;
+#X obj 97 255 dac~;
+#X obj 97 140 line~;
+#X msg 97 110 0 \, 50000 2000;
+#X obj 126 40 tgl 15 1 empty empty empty 17 7 0 10 -262144 -1 -1 1
+1;
+#X connect 0 0 3 0;
+#X connect 2 0 0 0;
+#X connect 4 0 5 0;
+#X connect 4 0 5 1;
+#X connect 6 0 4 0;
+#X connect 7 0 6 0;
+#X connect 8 0 7 0;
+#X connect 8 0 2 0;

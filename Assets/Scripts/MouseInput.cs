@@ -10,7 +10,6 @@ public class MouseInput : MonoBehaviour
     void Awake()
     {
         currentMousePosTranslated = new Vector3();
-
     }
 
 

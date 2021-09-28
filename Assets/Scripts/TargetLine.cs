@@ -9,7 +9,7 @@ public class TargetLine : MonoBehaviour
     Vector3 start;
     Vector3 end;
     private Vector3 direction;
-    public Vector3 Direction
+    public Vector3 Direction 
     {
         get {return start - end; }
     }
@@ -29,8 +29,8 @@ public class TargetLine : MonoBehaviour
     }
     private float MapDistanceToThickness(float velocity)
     {
-        float f = Mathf.InverseLerp(0.2f, 50f, velocity);
-        float thickness = Mathf.Lerp(0f, 5f, f);
+        float temp = Mathf.InverseLerp(0.2f, 50f, velocity);
+        float thickness = Mathf.Lerp(0f, 5f, temp);
         return thickness;
     }
 

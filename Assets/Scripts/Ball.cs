@@ -72,4 +72,9 @@ public abstract class Ball : MonoBehaviour
             OnFallenFromTable?.Invoke(b);
         }
     }
+
+    public Vector2 GetXandZposition()
+    {
+        return new Vector2(transform.position.x, transform.position.z);
+    }
 }

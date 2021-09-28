@@ -6,10 +6,21 @@ public class BallFactory : MonoBehaviour
 {
     [SerializeField] CueBall cueBall;
     [SerializeField] GameBall gameBall;
+    [SerializeField] public Ball testBall;
+
     public List<Ball> gameBalls = new List<Ball>();
     [SerializeField] [Range(0, 100)] List<int> probabilites;
     [SerializeField] [Range(0f, 1f)] float bounciness;
+    public static BallFactory Instance;
 
+    public delegate void BallsCreated();
+    public static event BallsCreated OnBallsCreated;
+
+
+    private void Awake()
+    {
+        Instance = this;
+    }
 
     private void Start()
     {
@@ -17,6 +28,7 @@ public class BallFactory : MonoBehaviour
 
         AddProbabilitesForBallIds();
         MakeGameBalls(GameManager.Instance.ballCount);
+        OnBallsCreated?.Invoke();
     }
 
 
@@ -89,7 +101,6 @@ public class BallFactory : MonoBehaviour
 
     public void RemoveGameBallFromList(Ball b)                    //unelegant
     {
-      //  Ball x = gameBalls.Find(ball => b.instanceId == ball.instanceId);
         gameBalls.Remove(b);
     }
 
