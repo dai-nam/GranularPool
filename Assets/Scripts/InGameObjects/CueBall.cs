@@ -2,8 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class RespawnPlane : MonoBehaviour
+namespace Assets.Scripts.InGameObjects
 {
+    public class CueBall : Ball
+    {
 
-
+    }
 }

@@ -6,7 +6,6 @@ public class PdCommunication : Communication
 {
    [SerializeField] LibPdInstance pdInstance;
 
-
     public override void SendData(GrainMessage message)
     {
         /*
@@ -27,6 +26,4 @@ public class PdCommunication : Communication
     {
         throw new System.NotImplementedException();
     }
-
-   
 }

@@ -9,8 +9,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1912044166428951477}
-  - component: {fileID: 4699248700138092635}
-  - component: {fileID: -838428628968164761}
+  - component: {fileID: 2057961111498005298}
+  - component: {fileID: 6809765734801882748}
   m_Layer: 0
   m_Name: OscCommunication
   m_TagString: Untagged
@@ -32,7 +32,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &4699248700138092635
+--- !u!114 &2057961111498005298
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -41,21 +41,21 @@ MonoBehaviour:
   m_GameObject: {fileID: 1172312450051113949}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9fd6e485681114e4985338a471af87eb, type: 3}
+  m_Script: {fileID: 11500000, guid: 04d5723d59f99904c8b4ad4d73812db1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &-838428628968164761
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1172312450051113949}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6221c703566eb694fa1127c70d55b413, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  inPort: 7000
+  inPort: 6969
   outIP: 127.0.0.1
   outPort: 8000
+--- !u!114 &6809765734801882748
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1172312450051113949}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e521be71b42e12d4c803c9f1b4304660, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

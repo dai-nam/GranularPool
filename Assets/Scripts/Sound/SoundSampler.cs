@@ -2,6 +2,10 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Assets.Scripts.Core;
+using Assets.Scripts.InGameObjects;
+
+
 
 public class SoundSampler : MonoBehaviour
 {

@@ -4,7 +4,7 @@ using UnityEngine;
 
 public abstract class Communication : MonoBehaviour
 {
-    protected List<Grain> grains;
+    protected List<Grain> grains;           //hier raus -> GrainMessage von einem Interface ableiten?
     void Start()
     {
         grains = SoundSampler.Instance.GetGrains();

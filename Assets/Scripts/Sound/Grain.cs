@@ -1,10 +1,9 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
+﻿
 using UnityEngine;
+using Assets.Scripts.InGameObjects;
 
 
-public class Grain : MonoBehaviour
+    public class Grain : MonoBehaviour
 {
     [SerializeField] float grainPosition;
     [SerializeField] float grainLength;
