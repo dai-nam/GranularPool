@@ -4,7 +4,14 @@ using UnityEngine;
 
 public class TestBall : Ball
 {
+    static int _testBallId;
     bool isClicked;
+    public int testBallId;
+
+    void Awake()
+    {
+        testBallId = _testBallId++;
+    }
 
     private void Update()
     {

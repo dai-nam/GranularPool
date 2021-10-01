@@ -1,0 +1,36 @@
+#N canvas 852 235 680 533 12;
+#X obj 404 153 soundfiler;
+#X obj 406 211 array define grainArray;
+#X msg 404 114 read -resize test.wav grainArray;
+#X floatatom 404 188 10 0 0 0 - - -;
+#X obj 408 77 tgl 15 1 empty empty empty 17 7 0 10 -262144 -1 -1 1
+1;
+#X floatatom 80 161 5 0 0 0 - - -;
+#X obj 78 326 dac~;
+#X obj 206 81 s grain_len;
+#X floatatom 181 45 5 0 0 0 - - -;
+#X obj 79 277 *~ 0.5;
+#X floatatom 24 43 5 0 0 0 - - -;
+#X msg 81 200 next \$1;
+#X obj 79 246 clone Pd_GrainSubpatch 1;
+#X obj 116 118 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
+-1 -1;
+#X obj 116 84 metro 1000;
+#X msg 66 42 1000;
+#X obj 116 44 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 0
+1;
+#X connect 0 0 3 0;
+#X connect 2 0 0 0;
+#X connect 4 0 2 0;
+#X connect 5 0 11 0;
+#X connect 8 0 7 0;
+#X connect 8 0 14 1;
+#X connect 9 0 6 0;
+#X connect 9 0 6 1;
+#X connect 10 0 5 0;
+#X connect 11 0 12 0;
+#X connect 12 0 9 0;
+#X connect 13 0 5 0;
+#X connect 14 0 13 0;
+#X connect 15 0 5 0;
+#X connect 16 0 14 0;

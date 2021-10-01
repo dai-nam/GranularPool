@@ -6,12 +6,16 @@ using UnityEngine;
 public class SoundSampler : MonoBehaviour
 {
     public static SoundSampler Instance;
-    [SerializeField] Grain grain;
+    [SerializeField] Grain grain1;
+    [SerializeField] Grain grain2;
+
     List<Grain> grains;
-    [SerializeField] public float maxGrainLength = 1000;
+    [SerializeField] public float maxGrainLength = 2000;
+
 
     private void Awake()
     {
+        grains = new List<Grain>();
         Instance = this;
         BallFactory.OnBallsCreated += InitGrains;
     }
@@ -28,9 +32,13 @@ public class SoundSampler : MonoBehaviour
             g.transform.parent = this.transform;
         }
         */
-        Grain g = Instantiate(grain);
-        g.SetConnectedBall(BallFactory.Instance.testBall);
-        g.transform.parent = this.transform;
+        grain1.SetConnectedBall(BallFactory.Instance.testBall1);
+        grain2.SetConnectedBall(BallFactory.Instance.testBall2);
+
+        grain1.SetGrainId(BallFactory.Instance.testBall1.testBallId);
+        grain2.SetGrainId(BallFactory.Instance.testBall2.testBallId);
+        grains.Add(grain1);
+        grains.Add(grain2);
     }
 
     public float ConvertBallPositionToGrainPosition(Vector2 ballPosition)
@@ -56,6 +64,11 @@ public class SoundSampler : MonoBehaviour
         float temp = Mathf.InverseLerp(0f, Table.Instance.radius, dist);
         float grainLength = Mathf.Lerp(0f, maxGrainLength, temp);
         return grainLength;
+    }
+
+    public List<Grain> GetGrains()
+    {
+        return grains;
     }
 
 }

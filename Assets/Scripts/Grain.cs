@@ -5,9 +5,27 @@ using UnityEngine;
 
 public class Grain : MonoBehaviour
 {
-    float grainPosition;
-    float grainLength;
-    Ball ball;
+    [SerializeField] float grainPosition;
+    [SerializeField] float grainLength;
+    [SerializeField] int grainId;
+    [SerializeField] public Ball ball;
+    public GrainMessage grainMessage;
+
+    private void Start()
+    {
+        grainMessage = new GrainMessage(0, 0, 0);   //todo
+    }
+
+
+    public void SetGrainId(int id)
+    {
+        this.grainId = id;
+    }
+
+    public float GetGrainId()
+    {
+        return grainId;
+    }
 
     public void SetGrainPosition(float position)
     {
@@ -19,6 +37,16 @@ public class Grain : MonoBehaviour
         grainLength = length;
     }
 
+    public float GetGrainPosition()
+    {
+        return grainPosition;
+    }
+
+    public float GetGrainLength()
+    {
+        return grainLength;
+    }
+
     internal void SetConnectedBall(Ball ball)
     {
         this.ball = ball;
@@ -26,9 +54,32 @@ public class Grain : MonoBehaviour
 
     public void Update()
     {
-        float position = SoundSampler.Instance.ConvertBallPositionToGrainPosition(ball.GetXandZposition());
-        float length = SoundSampler.Instance.ConvertBallPositionToGrainLength(ball.GetXandZposition());
-        SetGrainPosition(position);
-        SetGrainLength(length);
+        UpdatePosition();
+        UpdateLength();
+        UpdateMessage();
     }
+
+    private void UpdatePosition()
+    {
+        float value = SoundSampler.Instance.ConvertBallPositionToGrainPosition(ball.GetXandZposition());
+        SetGrainPosition(value);
+    }
+
+    private void UpdateLength()
+    {
+        float value = SoundSampler.Instance.ConvertBallPositionToGrainLength(ball.GetXandZposition());
+        SetGrainLength(value);
+    }
+
+    //todo: message aus diesre Klasse raus
+    public void UpdateMessage()
+    {
+        grainMessage.SetMessage(grainId, grainPosition, grainLength);
+    }
+
+    public GrainMessage GetGrainMessage()
+    {
+        return grainMessage;
+    }
+
 }

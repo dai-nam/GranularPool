@@ -6,7 +6,9 @@ public class BallFactory : MonoBehaviour
 {
     [SerializeField] CueBall cueBall;
     [SerializeField] GameBall gameBall;
-    [SerializeField] public Ball testBall;
+    [SerializeField] public TestBall testBall1;
+    [SerializeField] public TestBall testBall2;
+
 
     public List<Ball> gameBalls = new List<Ball>();
     [SerializeField] [Range(0, 100)] List<int> probabilites;
