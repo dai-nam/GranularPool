@@ -3,17 +3,20 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+
 public class Grain : MonoBehaviour
 {
     [SerializeField] float grainPosition;
     [SerializeField] float grainLength;
     [SerializeField] int grainId;
+    [SerializeField] int grainActive;
+
     [SerializeField] public Ball ball;
     public GrainMessage grainMessage;
 
     private void Start()
     {
-        grainMessage = new GrainMessage(0, 0, 0);   //todo
+        grainMessage = new GrainMessage(0, 0, 0, 0);   //todo
     }
 
 
@@ -57,6 +60,7 @@ public class Grain : MonoBehaviour
         UpdatePosition();
         UpdateLength();
         UpdateMessage();
+        grainActive = isActive();
     }
 
     private void UpdatePosition()
@@ -74,12 +78,19 @@ public class Grain : MonoBehaviour
     //todo: message aus diesre Klasse raus
     public void UpdateMessage()
     {
-        grainMessage.SetMessage(grainId, grainPosition, grainLength);
+        grainMessage.SetMessage(grainId, grainPosition, grainLength, grainActive);
     }
 
     public GrainMessage GetGrainMessage()
     {
         return grainMessage;
+    }
+
+    public int isActive()
+    {
+        if (ball.onTable)
+            return 1;
+        return 0;
     }
 
 }

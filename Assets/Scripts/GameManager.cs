@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
-    readonly int frameRate = 300;
+    readonly int frameRate = 20;
     public static GameManager Instance;
     [SerializeField] [Range (1,4)] public int numberOfSamples = 1;
     [SerializeField] public int ballCount = 50;

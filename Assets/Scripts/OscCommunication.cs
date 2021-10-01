@@ -25,8 +25,10 @@ public class OscCommunication : Communication
     private void SendOscMessage(GrainMessage message)
     {
         OscMessage oscMsg = new OscMessage();
-        oscMsg.address = "/GrainData/"+message.id;
+        //oscMsg.address = "/GrainData/" + message.id;
+         oscMsg.address = "/GrainData";
         oscMsg.values.Add(message.id);
+        oscMsg.values.Add(message.enabled);
         oscMsg.values.Add(message.position);
         oscMsg.values.Add(message.length);
         osc.Send(oscMsg);
@@ -56,6 +58,14 @@ public class OscCommunication : Communication
         OscMessage oscMsg = new OscMessage();
         oscMsg.address = "/length";
         oscMsg.values.Add(message.length);
+        osc.Send(oscMsg);
+    }
+
+    private void SendActiveState(GrainMessage message)
+    {
+        OscMessage oscMsg = new OscMessage();
+        oscMsg.address = "/enabled";
+        oscMsg.values.Add(message.enabled);
         osc.Send(oscMsg);
     }
 

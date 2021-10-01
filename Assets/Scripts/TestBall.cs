@@ -10,12 +10,14 @@ public class TestBall : Ball
 
     void Awake()
     {
+        onTable = true;
         testBallId = _testBallId++;
     }
 
     private void Update()
     {
-       float angle = SoundSampler.Instance.ConvertBallPositionToGrainPosition(GetXandZposition());
+        onTable = Table.Instance.CheckIfOnTable(transform.position);
+        float angle = SoundSampler.Instance.ConvertBallPositionToGrainPosition(GetXandZposition());
         if (isClicked)
         {
             ClickAndDrag();
