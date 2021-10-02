@@ -28,7 +28,7 @@ public class OscCommunication : Communication
         //oscMsg.address = "/GrainData/" + message.id;
          oscMsg.address = "/GrainData";
         oscMsg.values.Add(message.id);
-        oscMsg.values.Add(message.enabled);
+        oscMsg.values.Add(message.enabled); // -> todo Event
         oscMsg.values.Add(message.position);
         oscMsg.values.Add(message.length);
         osc.Send(oscMsg);

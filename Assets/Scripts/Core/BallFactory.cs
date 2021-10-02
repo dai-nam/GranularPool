@@ -28,21 +28,19 @@ namespace Assets.Scripts.Core
 
         private void Start()
         {
-            MakeCueBall();
-
             AddProbabilitesForBallIds();
             MakeGameBalls(GameManager.Instance.ballCount);
             OnBallsCreated?.Invoke();
-        }
 
+            MakeCueBall();
+
+        }
 
         private void MakeCueBall()
         {
             CueBall b = Instantiate(cueBall, Table.Instance.GetRandomPositionOnTable(), Quaternion.identity);
             b.transform.parent = this.transform;
         }
-
-
 
         private void MakeGameBalls(int num)
         {
@@ -53,9 +51,10 @@ namespace Assets.Scripts.Core
             {
                 GameBall b = Instantiate(gameBall, Table.Instance.GetRandomPositionOnTable(), Quaternion.identity);
                 b.transform.parent = this.transform;
-                b.id = SelectGameBallId(ranges);
+                b.level = SelectGameBallId(ranges);
                 gameBalls.Add(b);
-                b.OnFallenFromTable += HandleFallFromTable;
+                // b.OnHitRespawnPlane += DestroyBallAndRemoveFromList;
+                b.OnHitRespawnPlane += b.GetComponent<FallenFromTable>().HandleFallenFromTable;
             }
         }
 
@@ -96,27 +95,19 @@ namespace Assets.Scripts.Core
             }
         }
 
-        private void HandleFallFromTable(Ball b)
-        {
-            RemoveGameBallFromList(b);
-            b.OnFallenFromTable -= HandleFallFromTable;
-            DestroyBall(b);
-        }
-
-        public void RemoveGameBallFromList(Ball b)                    //unelegant
+        public void DestroyBallAndRemoveFromList(Ball b)
         {
             gameBalls.Remove(b);
-        }
-
-        public void DestroyBall(Ball b)
-        {
+          //  b.OnHitRespawnPlane -= DestroyBallAndRemoveFromList;
+            b.OnHitRespawnPlane -= b.GetComponent<FallenFromTable>().HandleFallenFromTable;
             Destroy(b.gameObject);
         }
+
 
         private void DestroyAllBalls()
         {
             foreach (Ball b in transform.GetComponentsInChildren<Ball>())
-                DestroyBall(b);
+                DestroyBallAndRemoveFromList(b);
         }
 
 

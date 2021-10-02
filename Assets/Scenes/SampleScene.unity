@@ -132,12 +132,12 @@ GameObject:
   - component: {fileID: 50021962}
   - component: {fileID: 50021964}
   m_Layer: 0
-  m_Name: Grain (1)
+  m_Name: TestGrain2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &50021962
 Transform:
   m_ObjectHideFlags: 0
@@ -199,66 +199,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 298d0ecd8b6d238449e687382626ac5e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  patchName: Pd_Patch_e03
-  patchDir: /PdAssets/
-  patch: {fileID: 102900000, guid: 88f475c96d855cf40b6b296425427475, type: 3}
-  pipePrintToConsole: 0
-  numTicks: 0
-  pdFail: 0
-  patchFail: 0
-  pureDataEvents:
-    Bang:
-      m_PersistentCalls:
-        m_Calls: []
-      m_CallsDirty: 1
-    Float:
-      m_PersistentCalls:
-        m_Calls:
-        - {m_Target: {fileID: 1167733014}, m_MethodName: , m_Mode: 1, m_Arguments: {m_ObjectArgument: {fileID: 0},
-            m_ObjectArgumentAssemblyTypeName: , m_IntArgument: 0, m_FloatArgument: 0,
-            m_StringArgument: , m_BoolArgument: 0}, m_CallState: 2}
-      m_CallsDirty: 1
-    Symbol:
-      m_PersistentCalls:
-        m_Calls: []
-      m_CallsDirty: 1
-    List:
-      m_PersistentCalls:
-        m_Calls: []
-      m_CallsDirty: 1
-    Message:
-      m_PersistentCalls:
-        m_Calls: []
-      m_CallsDirty: 1
-  midiEvents:
-    MidiNoteOn:
-      m_PersistentCalls:
-        m_Calls: []
-      m_CallsDirty: 1
-    MidiControlChange:
-      m_PersistentCalls:
-        m_Calls: []
-      m_CallsDirty: 1
-    MidiProgramChange:
-      m_PersistentCalls:
-        m_Calls: []
-      m_CallsDirty: 1
-    MidiPitchBend:
-      m_PersistentCalls:
-        m_Calls: []
-      m_CallsDirty: 1
-    MidiAftertouch:
-      m_PersistentCalls:
-        m_Calls: []
-      m_CallsDirty: 1
-    MidiPolyAftertouch:
-      m_PersistentCalls:
-        m_Calls: []
-      m_CallsDirty: 1
-    MidiByte:
-      m_PersistentCalls:
-        m_Calls: []
-      m_CallsDirty: 1
 --- !u!82 &325442652
 AudioSource:
   m_ObjectHideFlags: 0
@@ -399,7 +339,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   numberOfSamples: 4
-  ballCount: 3
+  ballCount: 2
   ballFactory: {fileID: 1049407422}
 --- !u!4 &699179631
 Transform:
@@ -522,12 +462,12 @@ GameObject:
   - component: {fileID: 1167733015}
   - component: {fileID: 1167733016}
   m_Layer: 0
-  m_Name: Grain
+  m_Name: TestGrain1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1167733015
 Transform:
   m_ObjectHideFlags: 0
@@ -572,13 +512,14 @@ GameObject:
   - component: {fileID: 1307989387}
   - component: {fileID: 1307989386}
   - component: {fileID: 1307989385}
+  - component: {fileID: 1307989390}
   m_Layer: 0
   m_Name: TestBall2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1307989385
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -591,7 +532,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1adb1abf150d56548a8e3bde6597a1a6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isRespawnable: 0
+  fallenFromTableBehaviour: {fileID: 0}
   size: 1
   onTable: 0
   instanceId: 0
@@ -670,6 +611,18 @@ Transform:
   m_Father: {fileID: 1049407423}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1307989390
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1307989384}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 58c55e47b902abc43862d812755061b4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1477184380
 GameObject:
   m_ObjectHideFlags: 0
@@ -700,6 +653,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 47f718039cd44914495754f861f3ee74, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  grain: {fileID: 6522665079479015717, guid: 0bbe5c4dcdca40c4892724d1f944adee, type: 3}
   grain1: {fileID: 1167733016}
   grain2: {fileID: 50021964}
   maxGrainLength: 1000
@@ -921,13 +875,14 @@ GameObject:
   - component: {fileID: 1905706875}
   - component: {fileID: 1905706874}
   - component: {fileID: 1905706873}
+  - component: {fileID: 1905706878}
   m_Layer: 0
   m_Name: TestBall1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1905706873
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -940,7 +895,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1adb1abf150d56548a8e3bde6597a1a6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isRespawnable: 0
+  fallenFromTableBehaviour: {fileID: 0}
   size: 1
   onTable: 0
   instanceId: 0
@@ -1019,6 +974,18 @@ Transform:
   m_Father: {fileID: 1049407423}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1905706878
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1905706872}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 58c55e47b902abc43862d812755061b4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &58136736839082037
 PrefabInstance:
   m_ObjectHideFlags: 0

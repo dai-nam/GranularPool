@@ -10,6 +10,8 @@ using Assets.Scripts.InGameObjects;
 public class SoundSampler : MonoBehaviour
 {
     public static SoundSampler Instance;
+    [SerializeField] Grain grain;
+
     [SerializeField] Grain grain1;
     [SerializeField] Grain grain2;
 
@@ -27,15 +29,21 @@ public class SoundSampler : MonoBehaviour
 
     private void InitGrains()
     {
-        /*
         foreach (Ball ball in BallFactory.Instance.gameBalls)
         {
             Grain g = Instantiate(grain);
             g.SetGrainPosition(ConvertBallPositionToGrainPosition(ball.GetXandZposition()));
             g.SetGrainLength(ConvertBallPositionToGrainLength(ball.GetXandZposition()));
+            g.SetConnectedBall(ball);
+            g.SetGrainId(ball.instanceId);
             g.transform.parent = this.transform;
+            grains.Add(g);
         }
-        */
+       // TestMethod();
+    }
+
+    private void TestMethod()
+    {
         grain1.SetConnectedBall(BallFactory.Instance.testBall1);
         grain2.SetConnectedBall(BallFactory.Instance.testBall2);
 
