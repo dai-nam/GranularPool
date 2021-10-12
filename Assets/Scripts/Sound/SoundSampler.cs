@@ -6,14 +6,10 @@ using Assets.Scripts.Core;
 using Assets.Scripts.InGameObjects;
 
 
-
 public class SoundSampler : MonoBehaviour
 {
     public static SoundSampler Instance;
     [SerializeField] Grain grain;
-
-    [SerializeField] Grain grain1;
-    [SerializeField] Grain grain2;
 
     List<Grain> grains;
     [SerializeField] public float maxGrainLength = 2000;
@@ -23,12 +19,20 @@ public class SoundSampler : MonoBehaviour
     {
         grains = new List<Grain>();
         Instance = this;
-        BallFactory.OnBallsCreated += InitGrains;
+    }
+
+    private void Start()
+    {
+        BallFactory.OnNewBallsCreated += MakeGrains;
+        BallFactory.OnBallDestroyed += DestroyGrainAndRemoveFromList;
     }
 
 
-    private void InitGrains()
+
+    public void MakeGrains()
     {
+        DestroyAllGrains();
+
         foreach (Ball ball in BallFactory.Instance.gameBalls)
         {
             Grain g = Instantiate(grain);
@@ -39,18 +43,22 @@ public class SoundSampler : MonoBehaviour
             g.transform.parent = this.transform;
             grains.Add(g);
         }
-       // TestMethod();
     }
 
-    private void TestMethod()
+    private void DestroyGrainAndRemoveFromList(Ball b)
     {
-        grain1.SetConnectedBall(BallFactory.Instance.testBall1);
-        grain2.SetConnectedBall(BallFactory.Instance.testBall2);
+        Grain g = grains.Find(grain => grain.connectedBall == b);
+        grains.Remove(g);
+        Destroy(g.gameObject);
+    }
 
-        grain1.SetGrainId(BallFactory.Instance.testBall1.testBallId);
-        grain2.SetGrainId(BallFactory.Instance.testBall2.testBallId);
-        grains.Add(grain1);
-        grains.Add(grain2);
+    private void DestroyAllGrains()
+    {
+        foreach (Grain grain in grains)
+        {
+            Destroy(grain.gameObject);
+        }
+        grains = new List<Grain>();
     }
 
     public float ConvertBallPositionToGrainPosition(Vector2 ballPosition)

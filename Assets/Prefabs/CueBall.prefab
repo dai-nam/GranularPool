@@ -16,6 +16,7 @@ GameObject:
   - component: {fileID: 9192674090426166581}
   - component: {fileID: 4998803656194378436}
   - component: {fileID: 6342320944209719821}
+  - component: {fileID: -3489438656203633421}
   m_Layer: 0
   m_Name: CueBall
   m_TagString: Untagged
@@ -153,5 +154,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 63bc5cfead4bdf34089b7f8658ca73e0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &-3489438656203633421
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2911684448595469381}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5fe927e7c409049418ab99ccec3cb95c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 

@@ -10,10 +10,12 @@ namespace Assets.Scripts.InGameObjects
         float thickness = 0.2f;
         Vector3 start;
         Vector3 end;
+
         private Vector3 direction;
         public Vector3 Direction
         {
             get { return start - end; }
+            private set { direction = value; }
         }
 
         private void Awake()
@@ -21,7 +23,7 @@ namespace Assets.Scripts.InGameObjects
             lr = gameObject.AddComponent<LineRenderer>();
             start = new Vector3();
             end = new Vector3();
-            direction = new Vector3();
+            Direction = new Vector3();
         }
 
         public void SetThickness(float value)

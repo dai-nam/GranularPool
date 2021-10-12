@@ -3,7 +3,7 @@ using System.Collections;
 
 namespace Assets.Scripts.InGameObjects
 {
-    public class Respawnable : FallenFromTable
+    public class Respawnable : MonoBehaviour, FallenFromTableBehaviour 
     {
 
         public void RespawnAtRandomPosition()
@@ -14,7 +14,7 @@ namespace Assets.Scripts.InGameObjects
         }
 
 
-        public override void HandleFallenFromTable(Ball b)
+        public void HandleFallenFromTable(Ball b)
         {
                 RespawnAtRandomPosition();
         }

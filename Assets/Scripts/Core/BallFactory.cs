@@ -4,22 +4,29 @@ using Assets.Scripts.InGameObjects;
 
 namespace Assets.Scripts.Core
 {
+
+    public enum BallLevel
+    {
+        LEVEL_ONE,
+        LEVEL_TWO,
+        LEVEL_THREE,
+        LEVEL_FOUR
+    }
+
     public class BallFactory : MonoBehaviour
     {
-        [SerializeField] CueBall cueBall;
+        [SerializeField]  CueBall cueBall;
         [SerializeField] GameBall gameBall;
-        [SerializeField] public TestBall testBall1;
-        [SerializeField] public TestBall testBall2;
 
-
-        public List<Ball> gameBalls = new List<Ball>();
+        public List<Ball> gameBalls;
         [SerializeField] [Range(0, 100)] List<int> probabilites;
         [SerializeField] [Range(0f, 1f)] float bounciness;
         public static BallFactory Instance;
 
-        public delegate void BallsCreated();
-        public static event BallsCreated OnBallsCreated;
-
+        public delegate void NewBallsCreated();
+        public static event NewBallsCreated OnNewBallsCreated;
+        public delegate void BallDestroyed(Ball b);
+        public static event BallDestroyed OnBallDestroyed;
 
         private void Awake()
         {
@@ -28,37 +35,47 @@ namespace Assets.Scripts.Core
 
         private void Start()
         {
-            AddProbabilitesForBallIds();
-            MakeGameBalls(GameManager.Instance.ballCount);
-            OnBallsCreated?.Invoke();
-
-            MakeCueBall();
-
+            AddProbabilitesForBallLevels();
+            Initializer.OnCreateNewBalls += MakeCueBall;
+            Initializer.OnCreateNewBalls += MakeGameBalls;
         }
 
-        private void MakeCueBall()
+        public void MakeCueBall()
         {
+            if (CheckIfCueBallAlreadyExists())
+            {
+                return;
+            }
+
             CueBall b = Instantiate(cueBall, Table.Instance.GetRandomPositionOnTable(), Quaternion.identity);
+            b.OnHitRespawnPlane += b.GetComponent<FallenFromTableBehaviour>().HandleFallenFromTable;
             b.transform.parent = this.transform;
         }
 
-        private void MakeGameBalls(int num)
+        private static bool CheckIfCueBallAlreadyExists()
         {
-            List<int> ranges = new List<int>();
-            CalculateRanges(ranges);
+            return BallFactory.Instance.transform.GetComponentInChildren<CueBall>() != null;
+        }
 
-            for (int i = 0; i < num; i++)
+        public void MakeGameBalls()
+        {
+            DestroyAllGameBalls();
+            List<int> ranges = new List<int>();
+            CalculateLevelProbabilityRanges(ranges);
+            int limit = GameManager.Instance.ballCount;
+
+            for (int i = 0; i < limit; i++)
             {
                 GameBall b = Instantiate(gameBall, Table.Instance.GetRandomPositionOnTable(), Quaternion.identity);
                 b.transform.parent = this.transform;
-                b.level = SelectGameBallId(ranges);
+                b.level = SelectLevelBasedOnProbabilities(ranges);
                 gameBalls.Add(b);
-                // b.OnHitRespawnPlane += DestroyBallAndRemoveFromList;
-                b.OnHitRespawnPlane += b.GetComponent<FallenFromTable>().HandleFallenFromTable;
+                b.OnHitRespawnPlane += b.GetComponent<FallenFromTableBehaviour>().HandleFallenFromTable;
             }
+            OnNewBallsCreated?.Invoke();
         }
 
-        private void AddProbabilitesForBallIds()
+        private void AddProbabilitesForBallLevels()
         {
             int total = GameManager.Instance.numberOfSamples;
             for (int i = 0; i < total; i++)
@@ -67,7 +84,7 @@ namespace Assets.Scripts.Core
             }
         }
 
-        private int SelectGameBallId(List<int> ranges)
+        private int SelectLevelBasedOnProbabilities(List<int> ranges)
         {
             int total = 0;
             foreach (int i in probabilites)
@@ -84,7 +101,7 @@ namespace Assets.Scripts.Core
             return -1;
         }
 
-        private void CalculateRanges(List<int> ranges)
+        private void CalculateLevelProbabilityRanges(List<int> ranges)
         {
             int runningSum = 0; ;
             ranges.Add(0);
@@ -95,19 +112,20 @@ namespace Assets.Scripts.Core
             }
         }
 
-        public void DestroyBallAndRemoveFromList(Ball b)
+        public void DestroyGameBallAndRemoveFromList(Ball gameBall)
         {
-            gameBalls.Remove(b);
-          //  b.OnHitRespawnPlane -= DestroyBallAndRemoveFromList;
-            b.OnHitRespawnPlane -= b.GetComponent<FallenFromTable>().HandleFallenFromTable;
-            Destroy(b.gameObject);
+            gameBalls.Remove(gameBall);
+            gameBall.OnHitRespawnPlane -= gameBall.GetComponent<FallenFromTableBehaviour>().HandleFallenFromTable;
+            OnBallDestroyed?.Invoke(gameBall);
+            Destroy(gameBall.gameObject);
         }
 
 
-        private void DestroyAllBalls()
+        public void DestroyAllGameBalls()
         {
-            foreach (Ball b in transform.GetComponentsInChildren<Ball>())
-                DestroyBallAndRemoveFromList(b);
+            gameBalls = new List<Ball>();
+            foreach (GameBall gb in transform.GetComponentsInChildren<GameBall>())  // -> unschön, dass hier konkretes Game´ball
+                DestroyGameBallAndRemoveFromList(gb);
         }
 
 

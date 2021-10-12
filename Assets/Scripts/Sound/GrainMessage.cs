@@ -10,18 +10,26 @@ public class GrainMessage
     public float enabled;
 
 
-    public GrainMessage(int _id, float _position, float _length, float _enabled)
+    public GrainMessage(int _id, float _position, float _length, bool _enabled)
     {
+        
         SetMessage(_id, _position, _length, _enabled);
     }
 
-    public void SetMessage(int _id, float _position, float _length, float _enabled)
+   
+    public void SetMessage(int _id, float _position, float _length, bool _enabled)
     {
         this.id = _id;
         this.position = _position;
         this.length = _length;
-        this.enabled = _enabled;
+        this.enabled = IsEnabled(_enabled);
     }
+
+    private float IsEnabled(bool active)
+    {
+        return active ? 1f : 0f;
+    }
+
 
     public void PrintMessage()
     {

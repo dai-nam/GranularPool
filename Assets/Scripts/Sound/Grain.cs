@@ -8,14 +8,14 @@ using Assets.Scripts.InGameObjects;
     [SerializeField] float grainPosition;
     [SerializeField] float grainLength;
     [SerializeField] int grainId;
-    [SerializeField] int grainActive;
+    [SerializeField] bool grainActive;
 
-    [SerializeField] public Ball ball;
+    [SerializeField] public Ball connectedBall;
     public GrainMessage grainMessage;
 
     private void Start()
     {
-        grainMessage = new GrainMessage(0, 0, 0, 0);   //todo
+        grainMessage = new GrainMessage(0, 0, 0, true);   //todo
     }
 
 
@@ -51,26 +51,30 @@ using Assets.Scripts.InGameObjects;
 
     internal void SetConnectedBall(Ball ball)
     {
-        this.ball = ball;
+        this.connectedBall = ball;
     }
 
     public void Update()
     {
-        UpdatePosition();
-        UpdateLength();
+        if(grainActive)
+        {
+            UpdatePosition();
+            UpdateLength();
+        }
+
+        grainActive = IsActive();
         UpdateMessage();
-        grainActive = isActive();
     }
 
     private void UpdatePosition()
     {
-        float value = SoundSampler.Instance.ConvertBallPositionToGrainPosition(ball.GetXandZposition());
+        float value = SoundSampler.Instance.ConvertBallPositionToGrainPosition(connectedBall.GetXandZposition());
         SetGrainPosition(value);
     }
 
     private void UpdateLength()
     {
-        float value = SoundSampler.Instance.ConvertBallPositionToGrainLength(ball.GetXandZposition());
+        float value = SoundSampler.Instance.ConvertBallPositionToGrainLength(connectedBall.GetXandZposition());
         SetGrainLength(value);
     }
 
@@ -85,11 +89,9 @@ using Assets.Scripts.InGameObjects;
         return grainMessage;
     }
 
-    public int isActive()
+    public bool IsActive()
     {
-        if (ball.onTable)
-            return 1;
-        return 0;
+        return connectedBall.onTable;
     }
 
 }

@@ -4,11 +4,11 @@ using Assets.Scripts.Core;
 
 namespace Assets.Scripts.InGameObjects
 {
-    public class NotRespawnable : FallenFromTable
+    public class NotRespawnable : MonoBehaviour, FallenFromTableBehaviour
     {
-        public override void HandleFallenFromTable(Ball b)
+        public void HandleFallenFromTable(Ball b)
         {
-            BallFactory.Instance.DestroyBallAndRemoveFromList(b);
+            BallFactory.Instance.DestroyGameBallAndRemoveFromList(b);
         }
     }
 }

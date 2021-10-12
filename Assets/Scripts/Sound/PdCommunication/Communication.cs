@@ -13,6 +13,11 @@ public abstract class Communication : MonoBehaviour
 
     public virtual void Update()
     {
+        if(grains == null)
+        {
+            return;
+        }
+
         foreach(Grain grain in grains)
         {
             GrainMessage message = grain.GetGrainMessage();

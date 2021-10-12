@@ -7,8 +7,8 @@ namespace Assets.Scripts.InGameObjects
 {
     public abstract class Ball : MonoBehaviour
     {
-        [SerializeField] FallenFromTable fallenFromTableBehaviour;
-        [SerializeField] float size = 1;
+        [SerializeField] FallenFromTableBehaviour fallenFromTableBehaviour;
+      //  [SerializeField] float size = 1;
         public bool onTable;
         protected Rigidbody rb;
         protected SphereCollider sphereCollider;
