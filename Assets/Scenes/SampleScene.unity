@@ -334,7 +334,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   numberOfSamples: 4
-  ballCount: 2
+  ballCount: 50
   ballFactory: {fileID: 1049407422}
 --- !u!4 &699179631
 Transform:

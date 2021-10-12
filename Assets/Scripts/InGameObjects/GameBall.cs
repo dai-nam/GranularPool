@@ -7,7 +7,7 @@ namespace Assets.Scripts.InGameObjects
 {
     public class GameBall : Ball
     {
-        public int level;
+        public BallLevel level;
 
         private void Start()
         {
@@ -22,15 +22,25 @@ namespace Assets.Scripts.InGameObjects
 
         private Color SelectColor()
         {
-            Color c = Color.grey;
-            if (level == 0)
-                c = Color.green;
-            else if (level == 1)
-                c = Color.blue;
-            else if (level == 2)
-                c = Color.red;
-            else if (level == 3)
-                c = Color.black;
+            Color c;
+            switch (level)
+            {
+                case BallLevel.LEVEL_ONE:
+                    c = Color.green;
+                    break;
+                case BallLevel.LEVEL_TWO:
+                    c = Color.black;
+                    break;
+                case BallLevel.LEVEL_THREE:
+                    c = Color.blue;
+                    break;
+                case BallLevel.LEVEL_FOUR:
+                    c = Color.red;
+                    break;
+                default:
+                    c = Color.grey;
+                    break;
+            }
             return c;
         }
 

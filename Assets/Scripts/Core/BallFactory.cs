@@ -5,14 +5,6 @@ using Assets.Scripts.InGameObjects;
 namespace Assets.Scripts.Core
 {
 
-    public enum BallLevel
-    {
-        LEVEL_ONE,
-        LEVEL_TWO,
-        LEVEL_THREE,
-        LEVEL_FOUR
-    }
-
     public class BallFactory : MonoBehaviour
     {
         [SerializeField]  CueBall cueBall;
@@ -28,6 +20,7 @@ namespace Assets.Scripts.Core
         public delegate void BallDestroyed(Ball b);
         public static event BallDestroyed OnBallDestroyed;
 
+
         private void Awake()
         {
             Instance = this;
@@ -35,7 +28,7 @@ namespace Assets.Scripts.Core
 
         private void Start()
         {
-            AddProbabilitesForBallLevels();
+            AddDefaultProbabilitesForEachBallLevel();
             Initializer.OnCreateNewBalls += MakeCueBall;
             Initializer.OnCreateNewBalls += MakeGameBalls;
         }
@@ -68,37 +61,20 @@ namespace Assets.Scripts.Core
             {
                 GameBall b = Instantiate(gameBall, Table.Instance.GetRandomPositionOnTable(), Quaternion.identity);
                 b.transform.parent = this.transform;
-                b.level = SelectLevelBasedOnProbabilities(ranges);
+                b.level = PickLevelStringBasedOnProbabilities(ranges);
                 gameBalls.Add(b);
                 b.OnHitRespawnPlane += b.GetComponent<FallenFromTableBehaviour>().HandleFallenFromTable;
             }
             OnNewBallsCreated?.Invoke();
         }
 
-        private void AddProbabilitesForBallLevels()
+        private void AddDefaultProbabilitesForEachBallLevel()
         {
-            int total = GameManager.Instance.numberOfSamples;
+            int total = System.Enum.GetValues(typeof(BallLevel)).Length-1;
             for (int i = 0; i < total; i++)
             {
-                probabilites.Add(100 / total);
+                probabilites.Add(100);
             }
-        }
-
-        private int SelectLevelBasedOnProbabilities(List<int> ranges)
-        {
-            int total = 0;
-            foreach (int i in probabilites)
-            {
-                total += i;
-            }
-            int num = Random.Range(0, total);
-
-            for (int i = 1; i < ranges.Count; i++)
-            {
-                if (num >= ranges[i - 1] && num < ranges[i])
-                    return i - 1;
-            }
-            return -1;
         }
 
         private void CalculateLevelProbabilityRanges(List<int> ranges)
@@ -110,6 +86,25 @@ namespace Assets.Scripts.Core
                 runningSum += i;
                 ranges.Add(runningSum);
             }
+        }
+
+
+        private BallLevel PickLevelStringBasedOnProbabilities(List<int> ranges)
+        {
+            int total = 0;
+            foreach (int i in probabilites)
+            {
+                total += i;
+            }
+            int num = Random.Range(0, total);
+
+            for (int i = 0; i < ranges.Count-1; i++)
+            {
+                if (num >= ranges[i] && num < ranges[i+1])
+                    return (BallLevel)System.Enum.GetValues(typeof(BallLevel)).GetValue(i);
+
+            }
+            return BallLevel.LEVEL_UNDEFINED;
         }
 
         public void DestroyGameBallAndRemoveFromList(Ball gameBall)
