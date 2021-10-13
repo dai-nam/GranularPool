@@ -33,13 +33,15 @@ public class SoundSampler : MonoBehaviour
     {
         DestroyAllGrains();
 
-        foreach (Ball ball in BallFactory.Instance.gameBalls)
+        foreach (GameBall ball in BallFactory.Instance.gameBalls)
         {
             Grain g = Instantiate(grain);
             g.SetGrainPosition(ConvertBallPositionToGrainPosition(ball.GetXandZposition()));
             g.SetGrainLength(ConvertBallPositionToGrainLength(ball.GetXandZposition()));
             g.SetConnectedBall(ball);
             g.SetGrainId(ball.instanceId);
+            g.SetGrainSampleId((int) ball.level);
+
             g.transform.parent = this.transform;
             grains.Add(g);
         }

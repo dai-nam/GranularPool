@@ -25,16 +25,16 @@ namespace Assets.Scripts.InGameObjects
             Color c;
             switch (level)
             {
-                case BallLevel.LEVEL_ONE:
+                case BallLevel.LEVEL_ZERO:
                     c = Color.green;
                     break;
-                case BallLevel.LEVEL_TWO:
+                case BallLevel.LEVEL_ONE:
                     c = Color.black;
                     break;
-                case BallLevel.LEVEL_THREE:
+                case BallLevel.LEVEL_TWO:
                     c = Color.blue;
                     break;
-                case BallLevel.LEVEL_FOUR:
+                case BallLevel.LEVEL_THREE:
                     c = Color.red;
                     break;
                 default:

@@ -8,21 +8,24 @@ public class GrainMessage
     public float position;
     public float length;
     public float enabled;
+    public int sampleId;
 
 
-    public GrainMessage(int _id, float _position, float _length, bool _enabled)
+
+    public GrainMessage(int _id, float _position, float _length, bool _enabled, int sampleId)
     {
         
-        SetMessage(_id, _position, _length, _enabled);
+        SetMessage(_id, _position, _length, _enabled, sampleId);
     }
 
    
-    public void SetMessage(int _id, float _position, float _length, bool _enabled)
+    public void SetMessage(int _id, float _position, float _length, bool _enabled, int _sampleId)
     {
         this.id = _id;
         this.position = _position;
         this.length = _length;
         this.enabled = IsEnabled(_enabled);
+        this.sampleId = _sampleId;
     }
 
     private float IsEnabled(bool active)
@@ -33,7 +36,7 @@ public class GrainMessage
 
     public void PrintMessage()
     {
-        string msg = string.Format("ID: {0}, Position: {1}, Length: {2}, Enabled: {3}", id, position, length, enabled);
+        string msg = string.Format("ID: {0}, Position: {1}, Length: {2}, Enabled: {3}, SampleId: {4}", id, position, length, enabled, sampleId);
         Debug.Log(msg);
     }
 

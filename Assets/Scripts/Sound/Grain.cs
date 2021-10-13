@@ -8,6 +8,8 @@ using Assets.Scripts.InGameObjects;
     [SerializeField] float grainPosition;
     [SerializeField] float grainLength;
     [SerializeField] int grainId;
+    [SerializeField] int grainSampleId;
+
     [SerializeField] bool grainActive;
 
     [SerializeField] public Ball connectedBall;
@@ -15,7 +17,7 @@ using Assets.Scripts.InGameObjects;
 
     private void Start()
     {
-        grainMessage = new GrainMessage(0, 0, 0, true);   //todo
+        grainMessage = new GrainMessage(0, 0, 0, true, 0);   //todo
     }
 
 
@@ -24,9 +26,19 @@ using Assets.Scripts.InGameObjects;
         this.grainId = id;
     }
 
-    public float GetGrainId()
+    public int GetGrainId()
     {
         return grainId;
+    }
+
+    public void SetGrainSampleId(int sid)
+    {
+        this.grainSampleId = sid;
+    }
+
+    public int GetGrainSampleId()
+    {
+        return grainSampleId;
     }
 
     public void SetGrainPosition(float position)
@@ -81,7 +93,7 @@ using Assets.Scripts.InGameObjects;
     //todo: message aus diesre Klasse raus
     public void UpdateMessage()
     {
-        grainMessage.SetMessage(grainId, grainPosition, grainLength, grainActive);
+        grainMessage.SetMessage(grainId, grainPosition, grainLength, grainActive, grainSampleId);
     }
 
     public GrainMessage GetGrainMessage()
