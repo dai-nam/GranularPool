@@ -126,9 +126,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 099af0172c13d7243bc769f07ab5ec73, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  fallenFromTableBehaviour: {fileID: 4007711540457667418, guid: 31b9b7f6456747a4ab8ec41339498e3f,
-    type: 3}
-  size: 1
   onTable: 0
   instanceId: 0
 --- !u!114 &4998803656194378436

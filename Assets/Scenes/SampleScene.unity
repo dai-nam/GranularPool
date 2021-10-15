@@ -334,7 +334,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   numberOfSamples: 4
-  ballCount: 10
+  ballCount: 30
   ballFactory: {fileID: 1049407422}
 --- !u!4 &699179631
 Transform:
@@ -700,6 +700,7 @@ GameObject:
   - component: {fileID: 1916942715}
   - component: {fileID: 1916942716}
   - component: {fileID: 1916942717}
+  - component: {fileID: 1916942718}
   m_Layer: 0
   m_Name: CircularBorder
   m_TagString: Untagged
@@ -733,8 +734,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b285d1307f4c6a84197a2c74a0b13605, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  radius: 100
-  resolution: 4
+  radius: 59
+  resolution: 84
   vertices:
   - {x: 0, y: 0, z: 0}
   - {x: 0, y: 0, z: 0}
@@ -758,7 +759,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10306, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: 1f6fe30af2768724388d078055c7ff0f, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -779,6 +780,20 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+--- !u!64 &1916942718
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1916942714}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 4
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 0}
 --- !u!1001 &58136736839082037
 PrefabInstance:
   m_ObjectHideFlags: 0

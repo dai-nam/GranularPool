@@ -29,10 +29,22 @@ namespace Assets.Scripts.InGameObjects
 
         private void Update()
         {
+            ConstrainPositiveYPosition();
+
             onTable = Table.Instance.CheckIfOnTable(transform.position);
             if (!onTable)
             {
                 DecreaseVelocity();
+            }
+        }
+
+        private void ConstrainPositiveYPosition()
+        {
+            if (transform.position.y > 2.6)
+            {
+                transform.position.Set(transform.position.x, 2.5f, transform.position.z);
+                print("Constrained");
+
             }
         }
 
