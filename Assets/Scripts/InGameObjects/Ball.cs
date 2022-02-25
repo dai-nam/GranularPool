@@ -12,7 +12,7 @@ namespace Assets.Scripts.InGameObjects
         public bool onTable;
         protected Rigidbody rb;
         protected SphereCollider sphereCollider;
-        private static int id;
+        public static int numBalls;
         public int instanceId;
 
         public delegate void HitRespawnPlane(Ball b);
@@ -23,7 +23,7 @@ namespace Assets.Scripts.InGameObjects
             onTable = true;
             rb = GetComponent<Rigidbody>();
             sphereCollider = GetComponent<SphereCollider>();
-            instanceId = id++;
+            instanceId = numBalls++;
         }
 
 
@@ -62,6 +62,13 @@ namespace Assets.Scripts.InGameObjects
         private void OnTriggerEnter(Collider other)
         {
             OnHitRespawnPlane?.Invoke(this);
+        }
+
+        public void SetBallBounce(float value)
+        {
+            sphereCollider.material.bounciness = value;
+            sphereCollider.material.dynamicFriction = 1 - value;
+            sphereCollider.material.staticFriction = 1 - value;
         }
     }
 }

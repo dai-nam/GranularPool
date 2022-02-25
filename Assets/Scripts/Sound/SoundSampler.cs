@@ -11,7 +11,7 @@ public class SoundSampler : MonoBehaviour
     public static SoundSampler Instance;
     [SerializeField] Grain grain;
 
-    List<Grain> grains;
+    public List<Grain> grains;
     [SerializeField] public float maxGrainLength = 2000;
 
 

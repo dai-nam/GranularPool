@@ -32,7 +32,7 @@ public class OscCommunication : Communication
         oscMsg.values.Add(message.position);
         oscMsg.values.Add(message.length);
         osc.Send(oscMsg);
-        //print(oscMsg);
+      //  print(oscMsg);
     }
     private void SendId(GrainMessage message)
     {
@@ -40,7 +40,7 @@ public class OscCommunication : Communication
         oscMsg.address = "/id";
         oscMsg.values.Add(message.id);
         osc.Send(oscMsg);
-        print(oscMsg);
+      //  print(oscMsg);
 
     }
 

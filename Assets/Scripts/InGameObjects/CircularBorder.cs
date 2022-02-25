@@ -6,9 +6,10 @@ using System.Collections.Generic;
 
 namespace Assets.Scripts.InGameObjects
 {
+    [ExecuteInEditMode]
     public class CircularBorder : MonoBehaviour
     {
-        protected MeshFilter MeshFilter;
+       // protected MeshFilter MeshFilter;
 
         protected Mesh Mesh;
         [SerializeField] int radius = 65;
@@ -28,10 +29,10 @@ namespace Assets.Scripts.InGameObjects
 
             Mesh.RecalculateNormals();
             Mesh.RecalculateBounds();
-            MeshFilter = gameObject.AddComponent<MeshFilter>();
-            MeshFilter.mesh = Mesh;
+            // MeshFilter = gameObject.AddComponent<MeshFilter>();
+            //MeshFilter.mesh = Mesh;
+            GetComponent<MeshFilter>().mesh = Mesh;
             GetComponent<MeshCollider>().sharedMesh = Mesh;
-
         }
 
         private Vector3[] CreateVertices(int res)
@@ -45,13 +46,11 @@ namespace Assets.Scripts.InGameObjects
                 Vector3 vertex2 = new Vector3(Mathf.Cos(angle), 0, Mathf.Sin(angle)).normalized * radius;
                 vertex2.y += 10;             // height of border
 
-
                 vertex1 += center;
                 vertex2 += center;
 
                 vertices.Add(vertex1);
                 vertices.Add(vertex2);
-
             }
             return vertices.ToArray();
         }
@@ -59,36 +58,40 @@ namespace Assets.Scripts.InGameObjects
         private int[] CreateTriangles()
         {
             List<int> edges = new List<int>();          //todo refactor
-            int i = 0;
-            for (; i < vertices.Count - 2; i += 2)
+            for (int i = 0; i < vertices.Count; i += 2)
             {
 
-                edges.Add(i);
-                edges.Add(i + 1);
-                edges.Add(i + 2);
-                edges.Add(i + 1);
-                edges.Add(i + 2);
-                edges.Add(i + 3);
+                //Voderseite
+                edges.Add(EdgeIndex(i));
+                edges.Add(EdgeIndex(i + 1));
+                edges.Add(EdgeIndex(i + 2));
+                edges.Add(EdgeIndex(i + 2));
+                edges.Add(EdgeIndex(i + 1));
+                edges.Add(EdgeIndex(i + 3));
+
+                //Rückseite
+                edges.Add(EdgeIndex(i+2));
+                edges.Add(EdgeIndex(i + 1));
+                edges.Add(EdgeIndex(i));
+                edges.Add(EdgeIndex(i + 3));
+                edges.Add(EdgeIndex(i + 1));
+                edges.Add(EdgeIndex(i + 2));
             }
-            //Kreis schließen
-            edges.Add(i);
-            edges.Add(i + 1);
-            edges.Add(0);
-            edges.Add(i + 1);
-            edges.Add(0);
-            edges.Add(1);
-
-            print(i);
+         
             return edges.ToArray();
-
-
         }
+
+        //Modulo um Kreis zu schließen
+     private int EdgeIndex(int i)
+        {
+            return i % (vertices.Count - 2);
+        }
+
 
         private void OnTriggerEnter(Collider other)
         {
             print("Collision");
         }
-
 
     }
 }

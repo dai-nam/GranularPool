@@ -7,9 +7,10 @@ namespace Assets.Scripts.Core
 
     public class BallFactory : MonoBehaviour
     {
-        [SerializeField]  CueBall cueBall;
-        [SerializeField] GameBall gameBall;
+        [SerializeField] CueBall cueBallPrefab;
+        [SerializeField] GameBall gameBallPrefab;
 
+        CueBall cueBall;
         public List<Ball> gameBalls;
         [SerializeField] [Range(0, 100)] List<int> probabilites;
         [SerializeField] [Range(0f, 1f)] float bounciness;
@@ -31,6 +32,7 @@ namespace Assets.Scripts.Core
             AddDefaultProbabilitesForEachBallLevel();
             Initializer.OnCreateNewBalls += MakeCueBall;
             Initializer.OnCreateNewBalls += MakeGameBalls;
+
         }
 
         public void MakeCueBall()
@@ -40,9 +42,9 @@ namespace Assets.Scripts.Core
                 return;
             }
 
-            CueBall b = Instantiate(cueBall, Table.Instance.GetRandomPositionOnTable(), Quaternion.identity);
-            b.OnHitRespawnPlane += b.GetComponent<FallenFromTableBehaviour>().HandleFallenFromTable;
-            b.transform.parent = this.transform;
+            cueBall = Instantiate(cueBallPrefab, Table.Instance.GetRandomPositionOnTable(), Quaternion.identity);
+            cueBall.OnHitRespawnPlane += cueBall.GetComponent<FallenFromTableBehaviour>().HandleFallenFromTable;
+            cueBall.transform.parent = this.transform;
         }
 
         private static bool CheckIfCueBallAlreadyExists()
@@ -59,7 +61,7 @@ namespace Assets.Scripts.Core
 
             for (int i = 0; i < limit; i++)
             {
-                GameBall b = Instantiate(gameBall, Table.Instance.GetRandomPositionOnTable(), Quaternion.identity);
+                GameBall b = Instantiate(gameBallPrefab, Table.Instance.GetRandomPositionOnTable(), Quaternion.identity);
                 b.transform.parent = this.transform;
                 b.level = PickLevelStringBasedOnProbabilities(ranges);
                 gameBalls.Add(b);
@@ -121,17 +123,19 @@ namespace Assets.Scripts.Core
             gameBalls = new List<Ball>();
             foreach (GameBall gb in transform.GetComponentsInChildren<GameBall>())  // -> unschön, dass hier konkretes Game´ball
                 DestroyGameBallAndRemoveFromList(gb);
+            Ball.numBalls = 0; 
         }
 
 
         private void OnValidate()
         {
+        
+            cueBall?.SetBallBounce(bounciness);
             foreach (GameBall gb in gameBalls)
             {
-                if (gb == null)
-                    continue;
-                gb.SetBallBounce(bounciness);          // todo: eleganter, kein Null Check
+                gb?.SetBallBounce(bounciness);          // todo: eleganter, kein Null Check
             }
+            
 
         }
     }

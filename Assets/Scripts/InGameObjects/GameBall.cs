@@ -44,12 +44,6 @@ namespace Assets.Scripts.InGameObjects
             return c;
         }
 
-        public void SetBallBounce(float value)
-        {
-            sphereCollider.material.bounciness = value;
-            sphereCollider.material.dynamicFriction = 1 - value;
-            sphereCollider.material.staticFriction = 1 - value;
-
-        }
+      
     }
 }

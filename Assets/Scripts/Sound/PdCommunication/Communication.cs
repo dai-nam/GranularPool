@@ -7,6 +7,7 @@ public abstract class Communication : MonoBehaviour
     protected List<Grain> grains;           //hier raus -> GrainMessage von einem Interface ableiten?
     void Start()
     {
+        Assets.Scripts.Core.BallFactory.OnNewBallsCreated += UpdateGrainList;
         grains = SoundSampler.Instance.GetGrains();
         TurnPatchOn();
     }
@@ -35,4 +36,8 @@ public abstract class Communication : MonoBehaviour
     public abstract void TurnPatchOn();
     public abstract void TurnPatchOff();
 
+    public void UpdateGrainList()
+    {
+        grains = SoundSampler.Instance.GetGrains();
+    }
 }
