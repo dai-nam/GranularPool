@@ -1,8 +1,8 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CameraSwitch : MonoBehaviour
+public class CameraController : MonoBehaviour
 {
     [SerializeField] Camera mainCamera;
     [SerializeField] Camera uiCamera;
@@ -10,31 +10,31 @@ public class CameraSwitch : MonoBehaviour
 
     class GameViewCoordinates
     {
-        internal static Vector3 mainCameraPosition = new Vector3(0, 0, 0);
+        internal static Vector3 mainCameraPosition = new Vector3(0, 115, 0);
         internal static Vector2 mainCameraRectXY = new Vector2(0, 0);
         internal static Vector2 mainCameraRectWH = new Vector2(1, 1);
     }
 
     class UiViewCoordinates
     {
-        internal static Vector3 uiCameraPosition = new Vector3(500, 210, -60);
+        internal static Vector3 uiCameraPosition = new Vector3(5000, 20, -500);
         internal static Vector2 uiCameraRectXY = new Vector2(0, 0);
         internal static Vector2 uiCameraRectWH = new Vector2(1, 1);
     }
 
     class SplitViewCoordinates
     {
-        internal static Vector3 mainCameraPosition = new Vector3(0, 0, -50);
-        internal static Vector2 mainCameraRectXY = new Vector2(0.5f, 0);
+        internal static Vector3 mainCameraPosition = new Vector3(0, 215, 0);
+        internal static Vector2 mainCameraRectXY = new Vector2(0, 0);
         internal static Vector2 mainCameraRectWH = new Vector2(0.5f, 1);
 
-        internal static Vector3 uiCameraPosition = new Vector3(500, 200, -120);
-        internal static Vector2 uiCameraRectXY = new Vector2(0, 0);
+        internal static Vector3 uiCameraPosition = new Vector3(5000, 20, -840);
+        internal static Vector2 uiCameraRectXY = new Vector2(0.5f, 0);
         internal static Vector2 uiCameraRectWH = new Vector2(0.5f, 1);
     }
 
 
-   public void SetGameViewCamera()
+    public void SetGameViewCamera()
     {
         mainCamera.gameObject.SetActive(true);
         uiCamera.gameObject.SetActive(false);

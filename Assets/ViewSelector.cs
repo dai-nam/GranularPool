@@ -1,22 +1,22 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 [ExecuteInEditMode]
 
-public class ViewManager : MonoBehaviour
+public class ViewSelector : MonoBehaviour
 {
     public Views activeView;
 
     public delegate void OnSwitchToGameView();
     public OnSwitchToGameView SwitchToGameView;
     public delegate void OnSwitchToUiView();
-    public OnSwitchToUiView SwitchToUiView; 
+    public OnSwitchToUiView SwitchToUiView;
     public delegate void OnSwitchToSplitView();
     public OnSwitchToSplitView SwitchToSplitView;
 
-    private static ViewManager _instance;
-    public static ViewManager Instance
+    private static ViewSelector _instance;
+    public static ViewSelector Instance
     {
         get { return _instance; }
     }
@@ -34,14 +34,10 @@ public class ViewManager : MonoBehaviour
 
     private void RegisterEvents()
     {
-        UIElements uiElements = FindObjectOfType<UIElements>();
-        CameraSwitch cs = FindObjectOfType<CameraSwitch>();
-        SwitchToGameView += cs.SetGameViewCamera;
-        SwitchToUiView += cs.SetUiViewCamera;
-        SwitchToSplitView += cs.SetSplitViewCamera;
-        SwitchToGameView += uiElements.DisableUiElements;
-        SwitchToUiView += uiElements.EnableUiElements;
-        SwitchToSplitView += uiElements.DisableUiElements;
+        CameraController cc = FindObjectOfType<CameraController>();
+        SwitchToGameView += cc.SetGameViewCamera;
+        SwitchToUiView += cc.SetUiViewCamera;
+        SwitchToSplitView += cc.SetSplitViewCamera;
     }
 
     private void Start()
@@ -54,7 +50,7 @@ public class ViewManager : MonoBehaviour
     {
         switch (activeView)
         {
-            case Views.GameView :
+            case Views.GameView:
                 SwitchToGameView?.Invoke();
                 break;
             case Views.UiView:

@@ -2,18 +2,16 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-[ExecuteInEditMode]
-public class AudioclipLoader : MonoBehaviour
+//[ExecuteInEditMode]
+public class WaveformDrawer : MonoBehaviour
 {
-    public int width;
-    public int height;
+    public int xRes, yRes;
     Color waveformColor = Color.black;
     Color bgColor = Color.white;
     public float sat = .5f;
-    public int rectWidth, rectHeight;
+   // public int rectWidth, rectHeight;
 
     Image img;
-    public AudioClip clip;
 
     private void Awake()
     {
@@ -21,21 +19,21 @@ public class AudioclipLoader : MonoBehaviour
         bgColor = img.color;
         Vector3[] corners = new Vector3[4];
         transform.parent.gameObject.GetComponent<RectTransform>().GetWorldCorners(corners); //lu, lo, ro, ru
-        rectWidth = (int)(corners[2].x - corners[1].x);
-        rectHeight = (int) (corners[1].y - corners[0].y);
+      //  rectWidth = (int)(corners[2].x - corners[1].x);
+       // rectHeight = (int) (corners[1].y - corners[0].y);
     }
 
     void Start()
     {
-        //  transform.GetComponent<RectTransform>().rect.Set(transform.parent.position.x, transform.parent.position.y, rectWidth, rectHeight);
-        transform.GetComponent<RectTransform>().SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, rectWidth);
-        transform.GetComponent<RectTransform>().SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, rectHeight);
+       // transform.GetComponent<RectTransform>().SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, rectWidth);
+       // transform.GetComponent<RectTransform>().SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, rectHeight);
         DrawWaveform();
     }
 
     private void DrawWaveform()
     {
-        Texture2D texture = PaintWaveformSpectrum(clip, sat,  width, height, waveformColor, bgColor);
+        AudioClip clip = AudioLoader.Instance.audioClip;
+        Texture2D texture = PaintWaveformSpectrum(clip, sat,  xRes, yRes, waveformColor, bgColor);
         img.overrideSprite = Sprite.Create(texture, new Rect(0f, 0f, texture.width, texture.height), new Vector2(0.5f, 0.5f));
     }
 

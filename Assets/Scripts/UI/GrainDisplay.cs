@@ -8,8 +8,8 @@ public class GrainDisplay : MonoBehaviour
 
     private void Start()
     {
-        AudioclipLoader acl = FindObjectOfType<AudioclipLoader>();
-        length = (uint) acl.clip.length * 1000;
+        AudioClip clip = AudioLoader.Instance.audioClip; 
+        length = (uint) clip.length * 1000;
     }
 
 

@@ -72,7 +72,8 @@ public class Playhead : MonoBehaviour
     //Calculates Speed based on Sample Length
     private float CalculateMoveSpeed()
     {
-        float sampleLengthInSeconds = FindObjectOfType<AudioclipLoader>().clip.length;
+        AudioClip clip = AudioLoader.Instance.audioClip;
+        float sampleLengthInSeconds = clip.length;
         float displayWidth = transform.parent.GetComponent<GrainAreaDisplay>().waveFormwidth;
         //move displayWidth in sampleLengthInSeconds
         float speed = (displayWidth / sampleLengthInSeconds) * Time.deltaTime;

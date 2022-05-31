@@ -4,9 +4,10 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
-[ExecuteInEditMode]
+//[ExecuteInEditMode]
 public class GrainAreaDisplay : MonoBehaviour
 {
+    public int id;
     Vector3 worldSpaceMin, worldSpaceMax;
    public float waveFormwidth;
     public float grainAreaWidth;
@@ -17,8 +18,8 @@ public class GrainAreaDisplay : MonoBehaviour
         set {
             if (value < 0)
                 _grainLengthInMilliseconds = 0;
-            else if (value > GetComponentInParent<GrainDisplay>().length)
-                _grainLengthInMilliseconds = GetComponentInParent<GrainDisplay>().length;
+            else if (value > transform.parent.GetComponentInParent<GrainDisplay>().length)
+                _grainLengthInMilliseconds = transform.parent.GetComponentInParent<GrainDisplay>().length;
             else
                 _grainLengthInMilliseconds = value;
         }        
@@ -37,10 +38,10 @@ public class GrainAreaDisplay : MonoBehaviour
 
     private void Awake()
     {
-
         //Ecken des WaveFormFields erhalten
         Vector3[] corners = new Vector3[4];
-        transform.parent.parent.gameObject.GetComponent<RectTransform>().GetWorldCorners(corners); //lu, lo, ro, ru
+       // transform.parent.parent.gameObject.GetComponent<RectTransform>().GetWorldCorners(corners); //lu, lo, ro, ru
+       FindObjectOfType<GrainDisplay>().gameObject.GetComponent<RectTransform>().GetWorldCorners(corners);
         worldSpaceMin = corners[1];
         worldSpaceMax = corners[2];
         waveFormwidth = corners[2].x - corners[1].x;
@@ -189,20 +190,20 @@ public class GrainAreaDisplay : MonoBehaviour
 
     private void UpdateGrainWidthToMatchGrainLength()
     {
-        uint[] grainLengths = GetComponentInParent<ReceiveData>().receivedLengths;
+        uint[] grainLengths = transform.parent.GetComponentInParent<ReceiveData>().receivedLengths;
         if (grainLengths.Length > 0)
         {
-            _grainLengthInMilliseconds = grainLengths[0];
+            _grainLengthInMilliseconds = grainLengths[id];
         }
-        grainAreaWidth = ((float) _grainLengthInMilliseconds / GetComponentInParent<GrainDisplay>().length) * waveFormwidth;
+        grainAreaWidth = ((float) _grainLengthInMilliseconds / transform.parent.GetComponentInParent<GrainDisplay>().length) * waveFormwidth;
     }
 
     private void UpdatePosition()
     {
-        float[] grainPositions = GetComponentInParent<ReceiveData>().receivedPositions;
+        float[] grainPositions = transform.parent.GetComponentInParent<ReceiveData>().receivedPositions;
         if (grainPositions.Length > 0)
         {
-            pos = grainPositions[0];
+            pos = grainPositions[id];
         }
         /*
         foreach(float f in grainPositions)
