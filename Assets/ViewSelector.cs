@@ -30,6 +30,7 @@ public class ViewSelector : MonoBehaviour
     {
         _instance = this;
         RegisterEvents();
+        SwitchToSplitView?.Invoke();
     }
 
     private void RegisterEvents()

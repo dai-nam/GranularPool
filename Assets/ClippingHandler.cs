@@ -7,7 +7,7 @@ public class ClippingHandler : MonoBehaviour
 
     [SerializeField] GrainRectangle mainArea;
     [SerializeField] ClippedArea clippedAreaLeft, clippedAreaRight;
-    public float clippingAmountLeft, clippingAmountRight;
+    [HideInInspector] public float clippingAmountLeft, clippingAmountRight;
     private enum ClippingDirection
     {
         LEFT, RIGHT

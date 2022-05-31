@@ -4,31 +4,31 @@ using UnityEngine;
 
 public class CameraController : MonoBehaviour
 {
-    [SerializeField] Camera mainCamera;
+    [SerializeField] Camera gameCamera;
     [SerializeField] Camera uiCamera;
 
 
     class GameViewCoordinates
     {
-        internal static Vector3 mainCameraPosition = new Vector3(0, 115, 0);
-        internal static Vector2 mainCameraRectXY = new Vector2(0, 0);
-        internal static Vector2 mainCameraRectWH = new Vector2(1, 1);
+        internal static Vector3 gameCameraPosition = new Vector3(20, 115, 0);
+        internal static Vector2 gameCameraRectXY = new Vector2(0, 0);
+        internal static Vector2 gameCameraRectWH = new Vector2(1, 1);
     }
 
     class UiViewCoordinates
     {
-        internal static Vector3 uiCameraPosition = new Vector3(5000, 20, -500);
+        internal static Vector3 uiCameraPosition = new Vector3(5050, 20, -500);
         internal static Vector2 uiCameraRectXY = new Vector2(0, 0);
         internal static Vector2 uiCameraRectWH = new Vector2(1, 1);
     }
 
     class SplitViewCoordinates
     {
-        internal static Vector3 mainCameraPosition = new Vector3(0, 215, 0);
-        internal static Vector2 mainCameraRectXY = new Vector2(0, 0);
-        internal static Vector2 mainCameraRectWH = new Vector2(0.5f, 1);
+        internal static Vector3 gameCameraPosition = new Vector3(-20, 215, 0);
+        internal static Vector2 gameCameraRectXY = new Vector2(0, 0);
+        internal static Vector2 gameCameraRectWH = new Vector2(0.5f, 1);
 
-        internal static Vector3 uiCameraPosition = new Vector3(5000, 20, -840);
+        internal static Vector3 uiCameraPosition = new Vector3(5170, 20, -840);
         internal static Vector2 uiCameraRectXY = new Vector2(0.5f, 0);
         internal static Vector2 uiCameraRectWH = new Vector2(0.5f, 1);
     }
@@ -36,16 +36,16 @@ public class CameraController : MonoBehaviour
 
     public void SetGameViewCamera()
     {
-        mainCamera.gameObject.SetActive(true);
+        gameCamera.gameObject.SetActive(true);
         uiCamera.gameObject.SetActive(false);
-        mainCamera.transform.position = GameViewCoordinates.mainCameraPosition;
-        mainCamera.rect = new Rect(GameViewCoordinates.mainCameraRectXY, GameViewCoordinates.mainCameraRectWH);
+        gameCamera.transform.position = GameViewCoordinates.gameCameraPosition;
+        gameCamera.rect = new Rect(GameViewCoordinates.gameCameraRectXY, GameViewCoordinates.gameCameraRectWH);
     }
 
 
     public void SetUiViewCamera()
     {
-        mainCamera.gameObject.SetActive(false);
+        gameCamera.gameObject.SetActive(false);
         uiCamera.gameObject.SetActive(true);
         uiCamera.transform.position = UiViewCoordinates.uiCameraPosition;
         uiCamera.rect = new Rect(UiViewCoordinates.uiCameraRectXY, UiViewCoordinates.uiCameraRectWH);
@@ -53,10 +53,10 @@ public class CameraController : MonoBehaviour
 
     public void SetSplitViewCamera()
     {
-        mainCamera.gameObject.SetActive(true);
+        gameCamera.gameObject.SetActive(true);
         uiCamera.gameObject.SetActive(true);
-        mainCamera.transform.position = SplitViewCoordinates.mainCameraPosition;
-        mainCamera.rect = new Rect(SplitViewCoordinates.mainCameraRectXY, SplitViewCoordinates.mainCameraRectWH);
+        gameCamera.transform.position = SplitViewCoordinates.gameCameraPosition;
+        gameCamera.rect = new Rect(SplitViewCoordinates.gameCameraRectXY, SplitViewCoordinates.gameCameraRectWH);
         uiCamera.transform.position = SplitViewCoordinates.uiCameraPosition;
         uiCamera.rect = new Rect(SplitViewCoordinates.uiCameraRectXY, SplitViewCoordinates.uiCameraRectWH);
     }

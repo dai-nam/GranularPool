@@ -8,7 +8,7 @@ public class GrainRectangle : MonoBehaviour
     RectTransform parentRectTransform;
     Vector3[] worldCornersOfBackground;
     Vector3[] worldCorners;
-    public bool clippedLeft, clippedRight;
+   [HideInInspector] public bool clippedLeft, clippedRight;
     public float grainWidth;
 
     private void Start()

@@ -77,7 +77,7 @@ public class PlayheadController : MonoBehaviour
     //Calculates Speed based on Sample Length
     private float CalculateMoveSpeed()
     {
-        AudioClip clip = AudioLoader.Instance.audioClip;
+        AudioClip clip = AudioLoader.Instance.audioClips[0];
         float sampleLengthInSeconds = clip.length;
         float displayWidth = parentRectangle.rect.width;
         //move displayWidth in sampleLengthInSeconds

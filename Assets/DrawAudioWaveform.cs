@@ -32,7 +32,7 @@ public class DrawAudioWaveform : MonoBehaviour
 
     private void DrawWaveform()
     {
-        AudioClip clip = AudioLoader.Instance.audioClip;
+        AudioClip clip = AudioLoader.Instance.audioClips[0];
         Texture2D texture = PaintWaveformSpectrum(clip, sat, xRes, yRes, waveformColor, bgColor);
         img.overrideSprite = Sprite.Create(texture, new Rect(0f, 0f, texture.width, texture.height), new Vector2(0.5f, 0.5f));
     }
