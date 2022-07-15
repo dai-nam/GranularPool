@@ -18,6 +18,9 @@ namespace Assets.Scripts.Core
 
         public delegate void NewBallsCreated();
         public static event NewBallsCreated OnNewBallsCreated;
+
+        public delegate void BallCreated(GameBall b);
+        public static event BallCreated OnBallCreated;
         public delegate void BallDestroyed(Ball b);
         public static event BallDestroyed OnBallDestroyed;
 
@@ -31,7 +34,8 @@ namespace Assets.Scripts.Core
         {
             AddDefaultProbabilitesForEachBallLevel();
             Initializer.OnCreateNewBalls += MakeCueBall;
-            Initializer.OnCreateNewBalls += MakeGameBalls;
+           // Initializer.OnCreateNewBalls += MakeGameBalls;
+            Initializer.OnCreateNewBalls += MakeGameBall;
 
         }
 
@@ -52,6 +56,7 @@ namespace Assets.Scripts.Core
             return BallFactory.Instance.transform.GetComponentInChildren<CueBall>() != null;
         }
 
+        /*
         public void MakeGameBalls()
         {
             DestroyAllGameBalls();
@@ -66,6 +71,26 @@ namespace Assets.Scripts.Core
                 b.level = PickLevelStringBasedOnProbabilities(ranges);
                 gameBalls.Add(b);
                 b.OnHitRespawnPlane += b.GetComponent<FallenFromTableBehaviour>().HandleFallenFromTable;
+            }
+            OnNewBallsCreated?.Invoke();
+        }
+        */
+
+        public void MakeGameBall()
+        {
+            DestroyAllGameBalls();
+            List<int> ranges = new List<int>();
+            CalculateLevelProbabilityRanges(ranges);
+            int limit = GameManager.Instance.ballCount;
+
+            for (int i = 0; i < limit; i++)
+            {
+                GameBall b = Instantiate(gameBallPrefab, Table.Instance.GetRandomPositionOnTable(), Quaternion.identity);
+                b.transform.parent = this.transform;
+                b.level = PickLevelStringBasedOnProbabilities(ranges);
+                gameBalls.Add(b);
+                b.OnHitRespawnPlane += b.GetComponent<FallenFromTableBehaviour>().HandleFallenFromTable;
+                OnBallCreated?.Invoke(b);
             }
             OnNewBallsCreated?.Invoke();
         }

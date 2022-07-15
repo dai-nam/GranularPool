@@ -7,7 +7,7 @@ using Assets.Scripts.InGameObjects;
 {
     [SerializeField] float grainPosition;
     [SerializeField] float grainLength;
-    [SerializeField] int grainId;
+    public int grainId;
     [SerializeField] int grainSampleId;
 
     [SerializeField] bool grainActive;
@@ -87,6 +87,7 @@ using Assets.Scripts.InGameObjects;
     private void UpdateLength()
     {
         float value = SoundSampler.Instance.ConvertBallPositionToGrainLength(connectedBall.GetXandZposition());
+        value *= SoundSampler.Instance.maxGrainLength;
         SetGrainLength(value);
     }
 

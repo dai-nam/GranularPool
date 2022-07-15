@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class AudioLoader : MonoBehaviour
 {
-    public uint numSamples = 1;
-    public AudioClip[] audioClips;
+    public const uint numSamples = 1;
+    public AudioClip[] audioClips = new AudioClip[numSamples];
 
     private static AudioLoader _instance;
     public static AudioLoader Instance {
@@ -29,8 +29,6 @@ public class AudioLoader : MonoBehaviour
     private void Awake()
     {
         _instance = this;
-        audioClips = new AudioClip[numSamples];
-
     }
 
 }

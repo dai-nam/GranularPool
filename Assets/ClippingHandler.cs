@@ -7,6 +7,7 @@ public class ClippingHandler : MonoBehaviour
 
     [SerializeField] GrainRectangle mainArea;
     [SerializeField] ClippedArea clippedAreaLeft, clippedAreaRight;
+    RectTransform playheadTransform;
     [HideInInspector] public float clippingAmountLeft, clippingAmountRight;
     private enum ClippingDirection
     {
@@ -15,9 +16,10 @@ public class ClippingHandler : MonoBehaviour
 
     Vector3[] backgroundWorldCorners = new Vector3[4];
 
-    private void Start()
+    private void OnEnable()
     {
         GetComponent<RectTransform>().GetWorldCorners(backgroundWorldCorners);
+        playheadTransform = GetComponentInChildren<PlayheadController>().GetComponent<RectTransform>();
     }
 
     void Update()
@@ -28,7 +30,7 @@ public class ClippingHandler : MonoBehaviour
 
     private void CheckForClippping()
     {
-        mainArea.clippedLeft = mainArea.clippedRight = false;
+      //  mainArea.clippedLeft = mainArea.clippedRight = false;
         Vector3[] cornersWithRelativePosition = mainArea.GetCornersWithRelativePosition();
         //Linke Ecke Clipped Left
         if (cornersWithRelativePosition[0].x < 0f)
@@ -44,6 +46,7 @@ public class ClippingHandler : MonoBehaviour
         }
         else
         {
+            mainArea.clippedLeft = mainArea.clippedRight = false;
             clippingAmountLeft = clippingAmountRight = 0;
         }
 
@@ -73,16 +76,20 @@ public class ClippingHandler : MonoBehaviour
         RectTransform rt = GetComponent<RectTransform>();
         if (mainArea.clippedLeft)
         {
-            mainArea.UpdateWidth();
+            print("LEFT");
+
+            UpdateWidthWhenClipping(clippingAmountLeft, ClippingDirection.LEFT);
             clippedAreaLeft.UpdatePosition(new Vector3(rt.rect.x + rt.rect.width, 0, 0));
-            clippedAreaLeft.UpdateWidth(clippingAmountLeft, mainArea.grainWidth);
+            clippedAreaLeft.UpdateWidth(clippingAmountLeft, mainArea.grainWidthInPixels);
             clippedAreaLeft.Enable(true);
         }
         else if (mainArea.clippedRight)
         {
-            mainArea.UpdateWidth();
+            print("RIGHT");
+
+            UpdateWidthWhenClipping(clippingAmountRight, ClippingDirection.RIGHT);
             clippedAreaRight.UpdatePosition(new Vector3(rt.rect.x, 0, 0));
-            clippedAreaRight.UpdateWidth(clippingAmountRight, mainArea.grainWidth);
+            clippedAreaRight.UpdateWidth(clippingAmountRight, mainArea.grainWidthInPixels);
             clippedAreaRight.Enable(true);
         }
         else
@@ -91,5 +98,44 @@ public class ClippingHandler : MonoBehaviour
             clippedAreaLeft.Enable(false);
             clippedAreaRight.Enable(false);
         }
+    }
+
+    private void UpdateWidthWhenClipping(float clippingAmount, ClippingDirection dir)
+    {
+        RectTransform rt = mainArea.GetComponent<RectTransform>();
+
+        float newWidth = rt.rect.width - clippingAmount;
+
+        if (dir == ClippingDirection.RIGHT)
+        {
+            rt.pivot = new Vector2(0, 0.5f);
+        }
+        else
+        {
+            //set pivot to right side
+            rt.pivot = new Vector2(1f, 0.5f);
+        }
+        rt.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, newWidth);
+        //Reset pivot
+        rt.pivot = new Vector2(0, 0.5f);
+
+       // print(newWidth);
+
+    }
+
+    void ClipPlayhead(ClippingDirection dir)
+    {
+        if(dir == ClippingDirection.LEFT)
+        {
+            if(playheadTransform.position.x > mainArea.GetWorldCornersOfRectangle()[0].x)
+            {
+                playheadTransform.position = mainArea.GetWorldCornersOfSampler()[2];
+            }
+        }
+       else if (dir == ClippingDirection.RIGHT)
+        {
+            playheadTransform.position = mainArea.GetWorldCornersOfSampler()[0];
+        }
+
     }
 }

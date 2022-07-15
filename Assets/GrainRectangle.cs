@@ -5,35 +5,58 @@ using UnityEngine;
 
 public class GrainRectangle : MonoBehaviour
 {
+    RectTransform rt;
     RectTransform parentRectTransform;
-    Vector3[] worldCornersOfBackground;
+
+    GrainData gd;
+    Vector3[] worldCornersOfSampler;
     Vector3[] worldCorners;
    [HideInInspector] public bool clippedLeft, clippedRight;
-    public float grainWidth;
+    public float grainWidthInPixels;
 
     private void Start()
     {
+        rt = GetComponent<RectTransform>();
+        gd = transform.parent.GetComponent<GrainData>();
         parentRectTransform = transform.parent.GetComponent<RectTransform>();
-        worldCornersOfBackground = new Vector3[4];
-        parentRectTransform.GetWorldCorners(worldCornersOfBackground);
+        worldCornersOfSampler = new Vector3[4];
+        parentRectTransform.GetWorldCorners(worldCornersOfSampler);
         worldCorners = new Vector3[4];
-        grainWidth = GetComponent<RectTransform>().rect.width;
-        print(grainWidth);
+       // grainWidth = GetComponent<RectTransform>().rect.width;
     }
 
-    public void UpdateWidth()
+    private void Update()
     {
-
+        UpdatePosition();
+        UpdateWidth();
     }
+
+    private void UpdateWidth()
+    {
+        grainWidthInPixels = gd.grainWidth * parentRectTransform.rect.width;
+        if(!clippedLeft && !clippedRight)
+        {
+            print("GUer");
+            rt.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, grainWidthInPixels);
+
+        }
+    }
+
+    private void UpdatePosition()
+    {
+        rt.position = parentRectTransform.position + (Vector3.right * gd.grainPosition * parentRectTransform.rect.width);
+    }
+
+
 
     public Vector3[] GetCornersWithRelativePosition()
     {
         Vector3[] cornersWithRelativePosition = new Vector3[4];
-        GetComponent<RectTransform>().GetWorldCorners(worldCorners);
+        rt.GetWorldCorners(worldCorners);
         Vector3 v = new Vector3();
         for (int i = 0; i < 4; i++)
         {
-            Vector3 tmp = worldCorners[i] - worldCornersOfBackground[i%2];      // %2 weil relative Position aller Ecken zu den linken Ecken (0 und 1) des Hintergrunds bestimmt werden soll 
+            Vector3 tmp = worldCorners[i] - worldCornersOfSampler[i%2];      // %2 weil relative Position aller Ecken zu den linken Ecken (0 und 1) des Hintergrunds bestimmt werden soll 
             float width = parentRectTransform.rect.width;
             v.Set(tmp.x / width, tmp.y, tmp.z);
             //print(i + ": " + v);
@@ -42,4 +65,15 @@ public class GrainRectangle : MonoBehaviour
 
         return cornersWithRelativePosition;
     }
+
+    public Vector3[] GetWorldCornersOfRectangle()
+    {
+        return worldCorners;
+    }
+
+    public Vector3[] GetWorldCornersOfSampler()
+    {
+        return worldCornersOfSampler;
+    }
+
 }
