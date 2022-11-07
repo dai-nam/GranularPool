@@ -8,7 +8,7 @@ public class GrainRectangle : MonoBehaviour
     RectTransform rt;
     RectTransform parentRectTransform;
 
-    GrainData gd;
+    public GrainData gd;
     Vector3[] worldCornersOfSampler;
     Vector3[] worldCorners;
    [HideInInspector] public bool clippedLeft, clippedRight;
@@ -33,10 +33,12 @@ public class GrainRectangle : MonoBehaviour
 
     private void UpdateWidth()
     {
-        grainWidthInPixels = gd.grainWidth * parentRectTransform.rect.width;
-        if(!clippedLeft && !clippedRight)
+         grainWidthInPixels = gd.grainWidth * parentRectTransform.rect.width;
+        //grainWidthInPixels = gd.grainWidth * UiAudioManager.Instance.GetComponent<RectTransform>().rect.width;
+
+        if (!clippedLeft && !clippedRight)
         {
-            print("GUer");
+         //   print("GUer");
             rt.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, grainWidthInPixels);
 
         }

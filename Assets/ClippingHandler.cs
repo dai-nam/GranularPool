@@ -1,11 +1,14 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 public class ClippingHandler : MonoBehaviour
 {
 
     [SerializeField] GrainRectangle mainArea;
+    [SerializeField] ClippingDummy clippingDummy;
+
     [SerializeField] ClippedArea clippedAreaLeft, clippedAreaRight;
     RectTransform playheadTransform;
     [HideInInspector] public float clippingAmountLeft, clippingAmountRight;
@@ -25,13 +28,19 @@ public class ClippingHandler : MonoBehaviour
     void Update()
     {
         CheckForClippping();
+        print("ClippedLeft=" + mainArea.clippedLeft + "   ClippedRight=" + mainArea.clippedRight);
         HandleClipping();
     }
 
     private void CheckForClippping()
     {
       //  mainArea.clippedLeft = mainArea.clippedRight = false;
-        Vector3[] cornersWithRelativePosition = mainArea.GetCornersWithRelativePosition();
+      //  Vector3[] cornersWithRelativePosition = mainArea.GetCornersWithRelativePosition();
+        Vector3[] cornersWithRelativePosition = clippingDummy.GetCornersWithRelativePosition();
+
+        //for (int i = 0; i < cornersWithRelativePosition.Length; i++)
+        //    print(i+":  "+cornersWithRelativePosition[i].x+";  ");
+
         //Linke Ecke Clipped Left
         if (cornersWithRelativePosition[0].x < 0f)
         {
@@ -50,8 +59,6 @@ public class ClippingHandler : MonoBehaviour
             clippingAmountLeft = clippingAmountRight = 0;
         }
 
-
-        // print("ClippedLeft=" + clippedLeft + "   ClippedRight=" + clippedRight);
     }
 
     private float GetClippingAmount(ClippingDirection dir)
@@ -76,7 +83,6 @@ public class ClippingHandler : MonoBehaviour
         RectTransform rt = GetComponent<RectTransform>();
         if (mainArea.clippedLeft)
         {
-            print("LEFT");
 
             UpdateWidthWhenClipping(clippingAmountLeft, ClippingDirection.LEFT);
             clippedAreaLeft.UpdatePosition(new Vector3(rt.rect.x + rt.rect.width, 0, 0));
@@ -85,8 +91,6 @@ public class ClippingHandler : MonoBehaviour
         }
         else if (mainArea.clippedRight)
         {
-            print("RIGHT");
-
             UpdateWidthWhenClipping(clippingAmountRight, ClippingDirection.RIGHT);
             clippedAreaRight.UpdatePosition(new Vector3(rt.rect.x, 0, 0));
             clippedAreaRight.UpdateWidth(clippingAmountRight, mainArea.grainWidthInPixels);

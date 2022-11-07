@@ -33,7 +33,7 @@ public class PlayheadController : MonoBehaviour
         SetPosition(startPosition);
         prevParentPosition = startPosition;
         dummie = startPosition;
-        print("Start " + startPosition);
+       // print("Start " + startPosition);
         offset = new Vector3();
     }
 
